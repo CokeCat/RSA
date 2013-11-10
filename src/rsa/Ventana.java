@@ -6,9 +6,8 @@ package rsa;
 
 import java.util.ArrayList;
 
-
 public class Ventana extends javax.swing.JFrame {
-
+    static Cipher cipher = new Cipher();
     public Ventana() {
         initComponents();
     }
@@ -25,7 +24,6 @@ public class Ventana extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        llaveAleatoriaCB = new javax.swing.JCheckBox();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
@@ -33,17 +31,19 @@ public class Ventana extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         decipherTextTF = new javax.swing.JTextField();
         cipherTextTF = new javax.swing.JTextField();
+        key1TF1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        plaintextTF.setText("AES es muy facil");
+        plaintextTF.setText("RSA es muy facil");
         plaintextTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 plaintextTFActionPerformed(evt);
             }
         });
 
-        key1TF.setText("2b7e151628aed2a6abf7158809cf4f3c");
+        key1TF.setEditable(false);
 
         cifrarB.setText("Cifrar");
         cifrarB.addActionListener(new java.awt.event.ActionListener() {
@@ -54,19 +54,12 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel1.setText("Mensaje");
 
-        jLabel2.setText("LLave");
+        jLabel2.setText("LLave Publica");
 
         jLabel3.setText("El texto cifrado es:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("Advanced Encryption Standard AES");
-
-        llaveAleatoriaCB.setText("LLave aleatoria");
-        llaveAleatoriaCB.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                llaveAleatoriaCBItemStateChanged(evt);
-            }
-        });
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -75,7 +68,7 @@ public class Ventana extends javax.swing.JFrame {
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
-        jLabel5.setText("Round keys");
+        jLabel5.setText("Log");
 
         jLabel6.setText("Desencriptando el texto se tiene");
 
@@ -87,6 +80,10 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         cipherTextTF.setEditable(false);
+
+        key1TF1.setEditable(false);
+
+        jLabel7.setText("LLave Privada");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,24 +99,23 @@ public class Ventana extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(decipherTextTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cipherTextTF, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(llaveAleatoriaCB)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cifrarB))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(key1TF)
-                                        .addComponent(plaintextTF, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
+                                    .addComponent(key1TF)
+                                    .addComponent(plaintextTF)
+                                    .addComponent(key1TF1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
+                                .addGap(41, 41, 41)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel2)))
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cipherTextTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(decipherTextTF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel7))))
                         .addGap(26, 26, 26)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -137,38 +133,41 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel1)
-                                    .addComponent(plaintextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jLabel2)
-                                    .addComponent(key1TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(cifrarB)
-                                    .addComponent(llaveAleatoriaCB))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addGap(10, 10, 10)
-                                .addComponent(cipherTextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(decipherTextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel1)
+                            .addComponent(plaintextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(key1TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(key1TF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cifrarB)))
+                        .addGap(10, 10, 10)
+                        .addComponent(cipherTextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(decipherTextTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -179,12 +178,28 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_plaintextTFActionPerformed
 
     private void cifrarBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cifrarBActionPerformed
-
+        String log = "";
+        String m = plaintextTF.getText();
+        System.out.println("m: "+m);
+        log += "\n Message to cipher: "+m;
+        String c = cipher.cipher(m);
+        log += "\n Cipher process";
+        log += "\n p: "+ cipher.key.getP().toString()
+             + "\n q: "+ cipher.key.getQ().toString()
+             + "\n n: "+ cipher.key.getN().toString()
+             + "\n phi: "+ cipher.key.getPhi().toString()
+             + "\n e: "+ cipher.key.getE().toString()
+             + "\n d: "+ cipher.key.getD().toString();
+        m = cipher.decipher(c);
+        
+        System.out.println("c: "+c);
+        System.out.println("m: "+m);
+        key1TF.setText(cipher.key.getE().toString());
+        key1TF1.setText(cipher.key.getD().toString());
+        cipherTextTF.setText(c);
+        decipherTextTF.setText(m);
+        textArea.setText(log);
     }//GEN-LAST:event_cifrarBActionPerformed
-
-    private void llaveAleatoriaCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_llaveAleatoriaCBItemStateChanged
-
-    }//GEN-LAST:event_llaveAleatoriaCBItemStateChanged
 
     private void decipherTextTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decipherTextTFActionPerformed
         // TODO add your handling code here:
@@ -234,11 +249,12 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField key1TF;
-    private javax.swing.JCheckBox llaveAleatoriaCB;
+    private javax.swing.JTextField key1TF1;
     private javax.swing.JTextField plaintextTF;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables

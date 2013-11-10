@@ -10,8 +10,8 @@ package rsa;
  */
 public class Cipher {
     
-    static KeyGenerator key = new KeyGenerator();
-    static Helper helper = new Helper();
+    public static KeyGenerator key = new KeyGenerator();
+    public static Helper helper = new Helper();
     
     public String cipher (String m){
         String c = "";
