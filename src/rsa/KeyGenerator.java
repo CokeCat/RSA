@@ -25,8 +25,8 @@ public  class KeyGenerator {
         p = BigInteger.probablePrime(9, new Random()).doubleValue();
         q = BigInteger.probablePrime(9, new Random()).doubleValue();
         System.out.println("p:"+p+" q:"+q);
-//        p=new Double("83");
-//        q=new Double("97");
+//        p=new Double("313");
+//        q=new Double("283");
     }
     
     public void generatePublicKey (){    
@@ -35,7 +35,7 @@ public  class KeyGenerator {
         phi = (p-1)*(q-1);
         System.out.println("phi: "+phi);
         e = helper.relativePrime(phi);
-        //e = new Double("6125");
+//        e = new Double("706291");
         System.out.println("e: "+e);
         System.out.println("e mdc phi: "+BigInteger.valueOf(e.longValue()).gcd(BigInteger.valueOf(phi.longValue())));        
     }

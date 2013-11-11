@@ -59,7 +59,7 @@ public class Ventana extends javax.swing.JFrame {
         jLabel3.setText("El texto cifrado es:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Advanced Encryption Standard AES");
+        jLabel4.setText("RSA");
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -179,19 +179,34 @@ public class Ventana extends javax.swing.JFrame {
 
     private void cifrarBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cifrarBActionPerformed
         String log = "";
+        String c;
         String m = plaintextTF.getText();
         System.out.println("m: "+m);
         log += "\n Message to cipher: "+m;
-        String c = cipher.cipher(m);
-        log += "\n Cipher process";
+        ArrayList<Integer> c_ascii = new ArrayList<>();
+        ArrayList<Integer> m_ascii = new ArrayList<>();
+        for(int i=0;i<m.length();i++){
+            m_ascii.add((int)m.charAt(i));
+        }
+        c_ascii = cipher.cipher(m_ascii);
+        m_ascii = cipher.decipher(c_ascii);
         log += "\n p: "+ cipher.key.getP().toString()
              + "\n q: "+ cipher.key.getQ().toString()
              + "\n n: "+ cipher.key.getN().toString()
              + "\n phi: "+ cipher.key.getPhi().toString()
              + "\n e: "+ cipher.key.getE().toString()
              + "\n d: "+ cipher.key.getD().toString();
-        m = cipher.decipher(c);
         
+        m="";
+        c="";
+        for(int i= 0; i<m_ascii.size();i++){
+            int j =m_ascii.get((i));
+            m += (char)j;
+        }
+        for(int i= 0; i<c_ascii.size();i++){
+            int j =c_ascii.get((i));
+            c += (char)j;
+        }
         System.out.println("c: "+c);
         System.out.println("m: "+m);
         key1TF.setText(cipher.key.getE().toString());

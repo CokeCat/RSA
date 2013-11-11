@@ -31,7 +31,7 @@ public class Helper {
             } else {
                 r.computeXY(eeaList.get(i + 1));
             }
-//            System.out.println("r " + r.toString());
+            System.out.println("r " + r.toString());
         }
         return eeaList.get(0);
     }
@@ -46,7 +46,7 @@ public class Helper {
 
     public Double relativePrime(Double x) {
         ArrayList<Double> primes = new ArrayList<Double>();
-        Double relativePrime = BigInteger.probablePrime(5, new Random()).doubleValue();
+        Double relativePrime = BigInteger.probablePrime(9, new Random()).doubleValue();
         while (relativePrime<x) {
             if (BigInteger.valueOf(x.longValue()).gcd(BigInteger.valueOf(relativePrime.longValue())).intValue() == 1) {
                 relativePrime = Math.pow(relativePrime, Math.floor((Math.random()*2)+1));
@@ -54,21 +54,24 @@ public class Helper {
                     return relativePrime;
                 }
             }
-            relativePrime = BigInteger.probablePrime(5, new Random()).doubleValue();
+            relativePrime = BigInteger.probablePrime(9, new Random()).doubleValue();
         }    
         return relativePrime;
     }
     
-    public int powerMod(String binaryKey, char caracter, Double n){
-        BigInteger a = BigInteger.valueOf((int)caracter);
+    public int powerMod(String binaryKey, Integer caracter, Double n){
+        BigInteger a = BigInteger.valueOf(caracter);
         BigInteger aux =  BigInteger.valueOf((int)caracter);
         for (int i=1;i<binaryKey.length();i++){
+            System.out.print( aux +" ");  
             if(binaryKey.charAt(i)=='1'){
-                aux = aux.pow(2).multiply(a).remainder(BigInteger.valueOf(n.longValue()));
+                aux = ((aux.pow(2)).multiply(a)).remainder(BigInteger.valueOf(n.longValue()));
             }else{
-                aux = aux.pow(2).remainder(BigInteger.valueOf(n.longValue()));
+                aux = (aux.pow(2)).remainder(BigInteger.valueOf(n.longValue()));
             }
         }
+        System.out.print( aux +" = "+ aux.intValue());  
+        System.out.println("");  
 //        System.out.println("aux "+ aux);        
         return aux.intValue();
     }
